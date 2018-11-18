@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.web.ResourceProperties;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -21,7 +22,11 @@ public class Recipe {
     private String url;
     private String direction;
 
+    @Lob
     private Byte image;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe") //if delete recipe, and no links to ingridient, delete this ingridient
+    private Set<Ingridient> ingridients;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
@@ -105,4 +110,14 @@ public class Recipe {
     public void setNotes(Notes notes) {
         this.notes = notes;
     }
+
+    public Set<Ingridient> getIngridients() {
+        return ingridients;
+    }
+
+    public void setIngridients(Set<Ingridient> ingridients) {
+        this.ingridients = ingridients;
+    }
+
+
 }
