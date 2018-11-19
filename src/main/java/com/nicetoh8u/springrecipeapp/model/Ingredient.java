@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-public class Ingridient {
+public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +19,20 @@ public class Ingridient {
 
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure uOM;
+
+
+    public Ingredient(String description, BigDecimal count, UnitOfMeasure uOM) {
+        this.description = description;
+        this.count = count;
+        this.uOM = uOM;
+    }
+
+    public Ingredient(String description, BigDecimal count, Recipe recipe, UnitOfMeasure uOM) {
+        this.description = description;
+        this.count = count;
+        this.recipe = recipe;
+        this.uOM = uOM;
+    }
 
     public Long getId() {
         return id;
