@@ -1,9 +1,5 @@
-package model;
+package com.nicetoh8u.springrecipeapp.model;
 
-import org.hibernate.engine.internal.Cascade;
-import org.springframework.boot.autoconfigure.web.ResourceProperties;
-
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.util.Set;
 
@@ -25,11 +21,20 @@ public class Recipe {
     @Lob
     private Byte image;
 
+    @Enumerated(value = EnumType.STRING)
+     private Difficulty difficulty;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe") //if delete recipe, and no links to ingridient, delete this ingridient
     private Set<Ingridient> ingridients;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Notes notes;
+
+    @ManyToMany
+    @JoinTable(name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name ="category_id"))
+    private Set<Category> categories;
 
     public Long getId() {
         return id;
@@ -119,5 +124,19 @@ public class Recipe {
         this.ingridients = ingridients;
     }
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
 
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
 }

@@ -1,21 +1,25 @@
-package model;
+package com.nicetoh8u.springrecipeapp.model;
 
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 
-public class UnitOfMeasure {
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
 
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Recipe> recipes;
+
     public Long getId() {
         return id;
     }
-
 
     public void setId(Long id) {
         this.id = id;
@@ -27,5 +31,13 @@ public class UnitOfMeasure {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        this.recipes = recipes;
     }
 }

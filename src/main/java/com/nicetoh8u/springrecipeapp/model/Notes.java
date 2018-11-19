@@ -1,6 +1,6 @@
-package model;
+package com.nicetoh8u.springrecipeapp.model;
 
-import org.springframework.data.annotation.Id;
+
 
 import javax.persistence.*;
 
