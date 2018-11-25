@@ -2,9 +2,13 @@ package com.nicetoh8u.springrecipeapp.model;
 
 
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Data
+@EqualsAndHashCode(exclude = {"recipe"})
 @Entity
 public class Ingredient {
 
@@ -20,7 +24,9 @@ public class Ingredient {
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure uOM;
 
+    public Ingredient(){
 
+    }
     public Ingredient(String description, BigDecimal count, UnitOfMeasure uOM) {
         this.description = description;
         this.count = count;
@@ -34,43 +40,4 @@ public class Ingredient {
         this.uOM = uOM;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public BigDecimal getCount() {
-        return count;
-    }
-
-    public void setCount(BigDecimal count) {
-        this.count = count;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public UnitOfMeasure getuOM() {
-        return uOM;
-    }
-
-    public void setuOM(UnitOfMeasure uOM) {
-        this.uOM = uOM;
-    }
 }

@@ -7,6 +7,7 @@ import com.nicetoh8u.springrecipeapp.model.*;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional //gives context 4 JPA lazy relationships
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
             recipeRepository.saveAll(getRecipes());
     }
