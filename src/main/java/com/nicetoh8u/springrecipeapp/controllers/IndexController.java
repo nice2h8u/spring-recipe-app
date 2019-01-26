@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     @Autowired
-    RecipeService recipeService;
+   private final RecipeService recipeService;
 
     public IndexController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
+
 
     @RequestMapping("")
     public String index(Model model){

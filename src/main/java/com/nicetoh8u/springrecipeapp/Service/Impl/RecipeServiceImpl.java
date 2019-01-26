@@ -48,7 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         Recipe savingRecape = recipeCommandToRecipe.convert(recipeCommand);
         recipeRepository.save(savingRecape);
-        log.info("Saving recipe with id " + savingRecape.getId());
+        log.debug("Saving recipe with id " + savingRecape.getId());
         return recipeToRecipeCommand.convert(savingRecape) ;
     }
 
@@ -56,5 +56,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public RecipeCommand findCommandById(Long l) {
         return recipeToRecipeCommand.convert(findById(l));
+    }
+
+    public void deleteById(Long id){
+        recipeRepository.deleteById(id);
     }
 }
