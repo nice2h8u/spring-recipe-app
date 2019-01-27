@@ -8,4 +8,6 @@ import java.util.Set;
 public interface IngredientService {
 
     IngredientCommand findByRecipeId(Long recipeId,Long id);
+    IngredientCommand saveOrUpdateIngredient(IngredientCommand command);
+    void deleteById(Long id);
 }

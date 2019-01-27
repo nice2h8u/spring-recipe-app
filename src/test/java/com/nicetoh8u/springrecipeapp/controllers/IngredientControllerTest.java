@@ -2,14 +2,18 @@ package com.nicetoh8u.springrecipeapp.controllers;
 
 import com.nicetoh8u.springrecipeapp.Service.IngredientService;
 import com.nicetoh8u.springrecipeapp.Service.RecipeService;
+import com.nicetoh8u.springrecipeapp.Service.UnitOfMeasureService;
 import com.nicetoh8u.springrecipeapp.commands.IngredientCommand;
 import com.nicetoh8u.springrecipeapp.commands.RecipeCommand;
+import com.nicetoh8u.springrecipeapp.commands.UnitOfMeasureCommand;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -35,7 +39,12 @@ public class IngredientControllerTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        ingredientController = new IngredientController(recipeService,ingredientService);
+        ingredientController = new IngredientController(recipeService, ingredientService, new UnitOfMeasureService() {
+            @Override
+            public Set<UnitOfMeasureCommand> listAllUoms() {
+                return null;
+            }
+        });
 
         mockMvc = MockMvcBuilders.standaloneSetup(ingredientController).build();
     }
