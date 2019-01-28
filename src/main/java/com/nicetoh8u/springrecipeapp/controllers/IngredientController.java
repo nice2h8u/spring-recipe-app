@@ -4,6 +4,8 @@ import com.nicetoh8u.springrecipeapp.Service.IngredientService;
 import com.nicetoh8u.springrecipeapp.Service.RecipeService;
 import com.nicetoh8u.springrecipeapp.Service.UnitOfMeasureService;
 import com.nicetoh8u.springrecipeapp.commands.IngredientCommand;
+import com.nicetoh8u.springrecipeapp.commands.RecipeCommand;
+import com.nicetoh8u.springrecipeapp.commands.UnitOfMeasureCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,6 +63,24 @@ public class IngredientController {
         ingredientService.deleteById(Long.parseLong(id));
 
         return "redirect:/recipe/{recipeId}/ingredients";
+    }
+
+    @GetMapping()
+    @RequestMapping("/recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model){
+
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.parseLong(recipeId));
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.parseLong(recipeId));
+        model.addAttribute("ingredient",ingredientCommand);
+
+        ingredientCommand.setUOM(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList",unitOfMeasureService.listAllUoms());
+
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @PostMapping

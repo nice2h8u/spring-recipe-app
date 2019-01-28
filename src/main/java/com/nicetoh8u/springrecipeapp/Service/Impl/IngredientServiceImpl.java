@@ -73,17 +73,27 @@ public class IngredientServiceImpl implements IngredientService {
             ingredient.setUOM(unitOfMeasureRepository.findById(command.getUOM().getId())
                     .orElseThrow(() -> new RuntimeException("No such uom!")));
 
-        } else
-            recipe.addIngredient(ingredientCommandToIngredient.convert(command));
-
+        } else {
+            Ingredient ingredient = ingredientCommandToIngredient.convert(command);
+            ingredient.setRecipe(recipe);
+            recipe.addIngredient(ingredient);
+        }
         Recipe savedRecipe = recipeRepository.save(recipe);
 
-        return ingredientToIngredientCommand.convert(savedRecipe.getIngredients()
+        Optional <Ingredient> savingIngridient = savedRecipe.getIngredients()
                 .stream()
                 .filter(ingredient -> ingredient.getId().equals(command.getId()))
-                .findFirst()
-                .get());
+                .findFirst();
 
+        if(!savingIngridient.isPresent()){
+            savingIngridient = savedRecipe.getIngredients().stream()
+                    .filter(ingredient -> ingredient.getDescription().equals(command.getDescription()))
+                    .filter(ingredient -> ingredient.getCount().equals(command.getCount()))
+                    .filter(ingredient -> ingredient.getUOM().getId().equals(command.getUOM().getId()))
+                    .findFirst();
+        }
+
+return ingredientToIngredientCommand.convert(savingIngridient.get());
     }
 
     public void deleteById(Long id){
