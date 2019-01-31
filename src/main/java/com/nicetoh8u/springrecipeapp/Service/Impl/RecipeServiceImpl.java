@@ -1,5 +1,6 @@
 package com.nicetoh8u.springrecipeapp.Service.Impl;
 
+import com.nicetoh8u.springrecipeapp.Exception.NotFoundException;
 import com.nicetoh8u.springrecipeapp.Repositories.RecipeRepository;
 import com.nicetoh8u.springrecipeapp.Service.RecipeService;
 import com.nicetoh8u.springrecipeapp.commands.RecipeCommand;
@@ -39,7 +40,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional <Recipe> recipe = recipeRepository.findById(id);
 
         if(!recipe.isPresent())
-            throw new RuntimeException("Recipe isn't present");
+            throw new NotFoundException("Recipe isn't present");
 
         return recipe.get();
     }

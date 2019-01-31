@@ -1,5 +1,6 @@
 package com.nicetoh8u.springrecipeapp.Service.Impl;
 
+import com.nicetoh8u.springrecipeapp.Exception.NotFoundException;
 import com.nicetoh8u.springrecipeapp.Repositories.IngredientRepository;
 import com.nicetoh8u.springrecipeapp.Repositories.RecipeRepository;
 import com.nicetoh8u.springrecipeapp.Repositories.UnitOfMeasureRepository;
@@ -38,14 +39,14 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> recipe = recipeRepository.findById(recipeId);
 
         if (!recipe.isPresent())
-            throw new RuntimeException("Can't find recipe with such id!");
+            throw new NotFoundException("Can't find recipe with such id!");
 
         Optional<IngredientCommand> ingredientCommand = recipe.get().getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(id))
                 .map(ingredient -> ingredientToIngredientCommand.convert(ingredient)).findFirst();
 
         if (!ingredientCommand.isPresent())
-            throw new RuntimeException("Such ingredient id not present!");
+            throw new NotFoundException("Such ingredient id not present!");
 
         return ingredientCommand.get();
     }
@@ -71,7 +72,7 @@ public class IngredientServiceImpl implements IngredientService {
             ingredient.setCount(command.getCount());
             ingredient.setDescription(command.getDescription());
             ingredient.setUOM(unitOfMeasureRepository.findById(command.getUOM().getId())
-                    .orElseThrow(() -> new RuntimeException("No such uom!")));
+                    .orElseThrow(() -> new NotFoundException("No such uom!")));
 
         } else {
             Ingredient ingredient = ingredientCommandToIngredient.convert(command);

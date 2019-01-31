@@ -1,11 +1,14 @@
 package com.nicetoh8u.springrecipeapp.controllers;
 
 
+import com.nicetoh8u.springrecipeapp.Exception.NotFoundException;
 import com.nicetoh8u.springrecipeapp.Service.RecipeService;
 import com.nicetoh8u.springrecipeapp.commands.RecipeCommand;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class RecipeController {
@@ -53,6 +56,17 @@ public class RecipeController {
         recipeService.deleteById(Long.parseLong(id));
         return "redirect:/";
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView getNotFoundException(NotFoundException exception){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception",exception);
+        return modelAndView;
+    }
+
+
 
 
 }

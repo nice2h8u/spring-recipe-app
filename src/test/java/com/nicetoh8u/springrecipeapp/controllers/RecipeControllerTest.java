@@ -1,5 +1,6 @@
 package com.nicetoh8u.springrecipeapp.controllers;
 
+import com.nicetoh8u.springrecipeapp.Exception.NotFoundException;
 import com.nicetoh8u.springrecipeapp.Service.RecipeService;
 import com.nicetoh8u.springrecipeapp.commands.RecipeCommand;
 import com.nicetoh8u.springrecipeapp.model.Recipe;
@@ -33,7 +34,9 @@ public class RecipeControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         recipeController = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(recipeController)
+                .setControllerAdvice(new ExceptionController())
+                .build();
     }
 
     @Test
@@ -78,5 +81,24 @@ public class RecipeControllerTest {
 
         verify(recipeService).deleteById(anyLong());
 
+    }
+
+
+    @Test
+    public void recipeNotFound() throws Exception{
+        when(recipeService.findById(anyLong())).thenThrow(new NotFoundException());
+
+        mockMvc.perform(get("/recipe/3/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+    }
+
+    @Test
+    public void recipeNumberFormat() throws Exception{
+        when(recipeService.findById(anyLong())).thenThrow(new NumberFormatException());
+
+        mockMvc.perform(get("/recipe/ddsd/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 }
