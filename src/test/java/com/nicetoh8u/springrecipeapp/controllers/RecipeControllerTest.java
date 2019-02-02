@@ -66,6 +66,7 @@ public class RecipeControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id","2")
                 .param("description","somestring")
+                .param("directions","some direction")
         )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/show/"+recipeCommand.getId()));
