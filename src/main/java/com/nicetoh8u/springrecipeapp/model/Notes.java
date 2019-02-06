@@ -6,8 +6,11 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"recipe"})
+@Table(name = "notes")
 @Entity
 public class Notes {
 

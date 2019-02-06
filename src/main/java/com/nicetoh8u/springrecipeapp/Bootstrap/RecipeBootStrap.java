@@ -5,6 +5,7 @@ import com.nicetoh8u.springrecipeapp.Repositories.RecipeRepository;
 import com.nicetoh8u.springrecipeapp.Repositories.UnitOfMeasureRepository;
 import com.nicetoh8u.springrecipeapp.model.*;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEvent> {
+@Profile("default")
+public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEvent>
+ {
 
     private final CategoryRepository categoryRepository;
     private final RecipeRepository recipeRepository;
@@ -27,7 +30,7 @@ public class RecipeBootStrap implements ApplicationListener<ContextRefreshedEven
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
 
-    @Override
+
     @Transactional //gives context 4 JPA lazy relationships
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
             recipeRepository.saveAll(getRecipes());

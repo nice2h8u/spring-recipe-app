@@ -4,13 +4,13 @@ package com.nicetoh8u.springrecipeapp.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@Table(name = "unit_of_measure")
 @Entity
 public class UnitOfMeasure {
 

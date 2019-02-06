@@ -7,8 +7,11 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"recipe"})
+@Table(name = "ingredient")
 @Entity
 public class Ingredient {
 
@@ -24,9 +27,7 @@ public class Ingredient {
     @OneToOne(fetch = FetchType.EAGER)
     private UnitOfMeasure uOM;
 
-    public Ingredient(){
 
-    }
     public Ingredient(String description, BigDecimal count, UnitOfMeasure uOM) {
         this.description = description;
         this.count = count;

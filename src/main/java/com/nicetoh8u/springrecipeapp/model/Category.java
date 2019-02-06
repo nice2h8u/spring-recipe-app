@@ -8,8 +8,11 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"recipes"}) //gen hashcode 4 Recipe entity
+@Table(name = "category")
 @Entity
 public class Category {
 

@@ -6,7 +6,10 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@Table(name = "recipe")
 @Entity
 public class Recipe {
 
